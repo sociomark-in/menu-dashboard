@@ -6,9 +6,8 @@ class Menu extends CI_Model
         parent::__construct();
     }
 
-    public function map_table_with_formdata($table, array $data){
-        $columns = $this->db->list_fields($table);
-        $mapped = array_combine([$columns[2], $columns[4], $columns[3]], $data);
+    public function map_fields_with_formdata(array $fields, array $data){
+        $mapped = array_combine($fields, $data);
         return $mapped;
     }
     

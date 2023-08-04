@@ -27,7 +27,6 @@ class Pages extends CI_Controller
     public function index()
     {
         $this->load->model('Menu');
-        $this->Menu->mas
         $data = [
             'page' => [
                 'title' => "Home". " • " . APP_NAME
@@ -44,6 +43,10 @@ class Pages extends CI_Controller
             ]
         ];
         $this->load->view('pages/login', $data);
+    }
+    public function register()
+    {
+        
     }
 }
                       

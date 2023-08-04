@@ -8,11 +8,12 @@
 </head>
 
 <body>
+    <?php $this->load->view('components/dashboard/_nav') ?>
     <main>
         <section class="my-5">
             <div class="row m-0 justify-content-center g-0">
                 <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-12">
-                    <?= form_open(base_url('api-auth-login')) ?>
+                    <?= form_open(base_url('api-auth-register')) ?>
                     <div class="mb-3">
                         <label for="inputUsername" class="form-label">Username</label>
                         <input type="text" class="form-control" name="username" id="inputUsername">
@@ -27,6 +28,7 @@
             </div>
         </section>
     </main>
+
     <?php $this->load->view('components/_common_js') ?>
 </body>
 

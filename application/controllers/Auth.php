@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
+class Auth extends CI_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -23,21 +24,29 @@ class Auth extends CI_Controller {
 		parent::__construct();
 		$this->load->model("User");
 	}
-	
-	 public function login()
-	{
-		$data['token'] = $this->security->get_csrf_hash();
-		$form_data = $this->input->post();
-		$id = $this->User->authorize($form_data);
-		if ($id === null) {
 
-		}else{
-			$_SESSION['user']['id'] = $id;
+	public function login()
+	{
+		$form_data = $this->input->post();
+		$user = $this->User->authorize($form_data);
+		if (count($user)== 0) {
+		} else {
+			$_SESSION['user'] = $user;
 			redirect("/trl-admin");
 		}
 	}
 
-	public function logout(){
+	public function register()
+	{
+		$form_data = $this->input->post();
+		$user = $this->User->new($form_data);
+
+		$this->session->set_flashdata('success', "Added new user '" . $form_data['username'] . "' Successfully.");
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function logout()
+	{
 		$this->session->sess_destroy();
 		redirect('login');
 	}
