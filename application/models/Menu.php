@@ -8,12 +8,12 @@ class Menu extends CI_Model
     
     public function all_master(){
         $master = [];
-        $categories = $this->db->query("SELECT * FROM `menu-categories`")->result();
+        $categories = $this->db->query("SELECT * FROM `trl_menu-categories`")->result();
         $categories_array = [];
         for ($i=0; $i < count($categories); $i++) { 
             $categories[$i] = (array)$categories[$i];
             $categories_array[$i] = $categories[$i];
-            $items = $this->db->query("SELECT * FROM `menu-items` WHERE `menu-items`.`cat_id` = " . $categories[$i]['id'])->result();
+            $items = $this->db->query("SELECT * FROM `trl_menu-items` WHERE `trl_menu-items`.`cat_id` = " . $categories[$i]['id'])->result();
             $categories[$i]['items'] = [];
             for ($j=0; $j < count($items); $j++) {
                 $items[$j] = (array)$items[$j];
@@ -25,16 +25,31 @@ class Menu extends CI_Model
     }
 
     public function all_categories(){
-        $result = $this->db->query("SELECT * FROM `menu-categories`")->result();
+        $result = $this->db->query("SELECT * FROM `trl_menu-categories`")->result();
         return $result;
     }
 
     public function items_by_($cat_id =null){
         if($cat_id === null){
-            $result = $this->db->query("SELECT * FROM `menu-items` INNER JOIN `menu-categories` ON `menu-items`.`cat_id` = `menu-categories`.`id`")->result();
+            $result = $this->db->query("SELECT * FROM `trl_menu-items` INNER JOIN `trl_menu-categories` ON `trl_menu-items`.`cat_id` = `trl_menu-categories`.`id`")->result();
         } else{
-            $result = $this->db->query("SELECT * FROM `menu-items` INNER JOIN `menu-categories` ON `menu-items`.`cat_id` = `menu-categories`.`id` WHERE `menu-categories`.`id` =" . $cat_id)->result();
+            $result = $this->db->query("SELECT * FROM `trl_menu-items` INNER JOIN `trl_menu-categories` ON `trl_menu-items`.`cat_id` = `trl_menu-categories`.`id` WHERE `trl_menu-categories`.`id` =" . $cat_id)->result();
         }
         return $result;
+    }
+
+    public function new($table,array $data){
+        $this->db->insert($table, $data);
+    }
+
+    public function delete($table, array $where){
+        $this->db->delete($table,$where);
+    }
+    
+    public function update($table, array $data, array $where){
+		foreach ($where as $key => $value) {
+            $this->db->where($key, $value);
+        }
+		$this->db->update($table, $data);
     }
 }

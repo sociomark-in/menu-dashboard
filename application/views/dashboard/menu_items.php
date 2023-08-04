@@ -25,11 +25,38 @@
                                     </h2>
                                     <div id="collapse<?= $i ?>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                         <div class="accordion-body">
-                                            <?php
-                                            echo "<pre>";
-                                            print_r((array)$items[$i]);
-                                            echo "</pre>";
-                                            ?>
+                                            <!-- 
+                                                Array
+                                                (
+                                                    [menu_id] => 2
+                                                    [cat_id] => 2
+                                                    [item_title] => Portobello Mushroom
+                                                    [item_description] => Pico de Gallo. Feta Cheese. Garlic Aioli.
+                                                    [item_price] => 19
+                                                    [item_created_at] => 2023-08-03 16:27:36
+                                                    [id] => 2
+                                                    [cat_title] => Burgers
+                                                    [cat_description] => 
+                                                    [cat_created_at] => 2023-08-03 17:05:30
+                                                )
+                                             -->
+                                            <div class="row justify-content-between">
+                                                <div class="col-auto">
+                                                    <div class="title">
+                                                        <h3><?= $items[$i]->item_title ?></h3>
+                                                    </div>
+                                                    <div class="desc">
+                                                        <p>
+                                                            <?= $items[$i]->item_description ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="price">
+                                                        <h4>&dollar;&nbsp;<?= $items[$i]->item_price ?>.00</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $items[$i]->menu_id ?>">
                                                 Edit item Details
                                             </button>
@@ -41,7 +68,7 @@
                     </div>
                     <div class="col-md-6">
                         <h2>Add New Item</h2>
-                        <?= form_open(base_url('api-auth-login')) ?>
+                        <?= form_open(base_url('api-menu-item/new')) ?>
                         <div class="mb-3">
                             <label for="inputUsername" class="form-label">Item Title</label>
                             <input type="text" class="form-control" name="item[title]" placeholder="" id="inputUsername">
@@ -68,7 +95,7 @@
             <div class="modal modal-lg fade" id="exampleModal<?= $items[$i]->menu_id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <?= form_open(base_url('')) ?>
+                        <?= form_open(base_url('api-menu-item/'.$items[$i]->menu_id.'/edit')) ?>
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Editing <?= $items[$i]->item_title ?></h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -88,7 +115,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="inputUsername" class="form-label">Item Description</label>
-                                <textarea class="form-control" name="item[description]" id="" cols="30" rows="3" value="<?= $items[$i]->item_description ?>" placeholder="<?= $items[$i]->item_description ?>"></textarea>
+                                <textarea class="form-control" name="item[description]" id="" cols="30" rows="3" value="" placeholder="<?= $items[$i]->item_description ?>"><?= $items[$i]->item_description ?></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
