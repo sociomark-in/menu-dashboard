@@ -36,8 +36,11 @@ class MenuController extends CI_Controller
 	}
 	public function menu_item_edit($id)
 	{
-		$data = [];
-		$this->Menu->update('trl_menu-items',$data,['id'=> $id]);
+		$data = $this->input->post();
+		// print_r($data['item']);
+		$purifiedArray = $this->Menu->map_table_with_formdata('trl_menu-items', $data['item']);
+		$this->Menu->update('trl_menu-items',$purifiedArray,array('menu_id'=> $id));
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	public function category_add()

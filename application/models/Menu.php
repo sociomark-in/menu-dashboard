@@ -5,6 +5,12 @@ class Menu extends CI_Model
     {
         parent::__construct();
     }
+
+    public function map_table_with_formdata($table, array $data){
+        $columns = $this->db->list_fields($table);
+        $mapped = array_combine([$columns[2], $columns[4], $columns[3]], $data);
+        return $mapped;
+    }
     
     public function all_master(){
         $master = [];
@@ -46,10 +52,7 @@ class Menu extends CI_Model
         $this->db->delete($table,$where);
     }
     
-    public function update($table, array $data, array $where){
-		foreach ($where as $key => $value) {
-            $this->db->where($key, $value);
-        }
-		$this->db->update($table, $data);
+    public function update($table, array $data, $where = array()){
+		$this->db->update($table, $data, $where);
     }
 }
